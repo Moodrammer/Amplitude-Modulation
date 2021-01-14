@@ -1,49 +1,55 @@
 %% 
 % Read audio files
 
-[signal1, Fs_signal1] = audioread("1.wav");
+[signal1, Fs_signal1] = audioread("Team14_speechsignal_1.wav");
 signal1 = signal1(:,1) + signal1(:,2);
-lenSignal1 = length(signal1)
+lenSignal1 = length(signal1);
+figure(1)
 plot(signal1)
+title("signal 1 time domain")
 xlabel("n(samples)")
 ylabel("signal1[n]")
 
-[signal2, Fs_signal2] = audioread("2.wav");
+[signal2, Fs_signal2] = audioread("Team14_speechsignal_2.wav");
 signal2 = signal2(:,1) + signal2(:,2);
-lenSignal2 = length(signal2)
+lenSignal2 = length(signal2);
+figure(2)
 plot(signal2)
+title("signal 2 time domain")
 xlabel("n(samples)")
 ylabel("signal2[n]")
 
-[signal3, Fs_signal3] = audioread("3.wav");
+[signal3, Fs_signal3] = audioread("Team14_speechsignal_3.wav");
 signal3 = signal3(:,1) + signal3(:,2);
-lenSignal3 = length(signal3)
+lenSignal3 = length(signal3);
+figure(3)
 plot(signal3)
+title("signal 3 time domain")
 xlabel("n(samples)")
 ylabel("signal3[n]")
 %% 
 % Convert to Frequency domain
 %%
 % Get the frequency increments
-% f_signal1 = (Fs_signal1/lenSignal1)  * (0 : lenSignal1 - 1);
 f_signal1=(-Fs_signal1/2:Fs_signal1/lenSignal1:Fs_signal1/2-Fs_signal1/lenSignal1);%frequency axis
 fft_signal1 = abs(fft(signal1));
+figure(4)
 plot(f_signal1, fftshift(fft_signal1))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
 title("Signal1 amplitudes against sampling frequency")
 
-% f_signal2 = (Fs_signal2/lenSignal2)  * (0: lenSignal2 - 1);
 f_signal2=(-Fs_signal2/2:Fs_signal2/lenSignal2:Fs_signal2/2-Fs_signal2/lenSignal2);%frequency axis
 fft_signal2 = abs(fft(signal2));
+figure(5)
 plot(f_signal2, fftshift(fft_signal2))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
 title("Signal2 amplitudes against sampling frequency")
 
-% f_signal3 = (Fs_signal3/lenSignal3)  * (0: lenSignal3 - 1);
 f_signal3=(-Fs_signal3/2:Fs_signal3/lenSignal3:Fs_signal3/2-Fs_signal3/lenSignal3);%frequency axis
 fft_signal3 = abs(fft(signal3));
+figure(6)
 plot(f_signal3, fftshift(fft_signal3))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
@@ -91,6 +97,7 @@ len_mod_signal3 = length(mod_signal3);
 % Get the frequency increments
 f_m_signal1 = (Fs_new/len_mod_signal1)  * (-len_mod_signal1/2: len_mod_signal1/2 - 1);
 fft_m_signal1 = abs(fft(mod_signal1));
+figure(7)
 plot(f_m_signal1, fftshift(fft_m_signal1))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
@@ -98,6 +105,7 @@ title("Modulated Signal1 spectrum")
 
 f_m_signal2 = (Fs_new/len_mod_signal2)  * (-len_mod_signal2/2: len_mod_signal2/2 - 1);
 fft_m_signal2 = abs(fft(mod_signal2));
+figure(8)
 plot(f_m_signal2, fftshift(fft_m_signal2))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
@@ -105,6 +113,7 @@ title("Modulated Signal2 spectrum")
 
 f_m_signal3 = (Fs_new/len_mod_signal3)  * (-len_mod_signal3/2: len_mod_signal3/2 - 1);
 fft_m_signal3 = abs(fft(mod_signal3));
+figure(9)
 plot(f_m_signal3, fftshift(fft_m_signal3))
 xlabel("f(Hz)")
 ylabel("Fourier coefficient amplitude")
@@ -123,10 +132,12 @@ mod_s = s1 + s2 + s3;
 t_ms = (0: max_len - 1) * (1 / Fs_new);
 f_ms = (-max_len/2 : max_len/2 - 1) * (Fs_new / max_len);
 
+figure(10)
 plot(t_ms, mod_s);xlabel("t");ylabel("Amplitude")
 title("Modulated signal")
 
 fft_mod_s = abs(fft(mod_s));
+figure(11)
 plot(f_ms, fftshift(fft_mod_s))
 xlabel("f(Hz)");ylabel("Magnitude");title("Magnitude Spectrum of Modulated signal")
 %% 
@@ -174,6 +185,7 @@ function  demodulate_signal(s, carr, old_len, fs_old, fs_new, f_pass, f_res, fil
     res = lowpass(res_s, f_pass , fs_new);
     
     fft_res_s = abs(fft(res));
+    figure()
     plot(f_res, fftshift(fft_res_s))
     title(strcat(filename, " demodulated magnitude spectrum"))
     
